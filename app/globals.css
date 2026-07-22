@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #fbf7f0;
+  --color-cream-deep: #f3ebdd;
+  --color-charcoal: #241c17;
+  --color-tomato: #c0392b;
+  --color-tomato-dark: #96271b;
+  --color-basil: #4b7f52;
+  --color-crust: #e0a458;
+  --color-crust-dark: #b97e34;
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+/* Textura sutil de fondo tipo papel de horno */
+.bg-paper {
+  background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(36, 28, 23, 0.04) 1px,
+      transparent 0
+    );
+  background-size: 22px 22px;
+}
