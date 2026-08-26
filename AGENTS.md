@@ -133,6 +133,18 @@ claude plugin install n8n-skills@n8n-io --scope project
 - Las skills se cargan al **arrancar la sesión**: tras instalar hace falta
   `/reload-plugins` o abrir una sesión nueva.
 
+### Skill propia — diseñar y auditar agentes
+
+`.claude/skills/agente-n8n/`, versionada en el repo. Destila el checklist
+*Anatomía de un agente en n8n* (Ailink, v2) en un procedimiento: test de la
+pizarra (¿agente o workflow?), las cuatro fases en orden, la regla de corte
+—ningún 🔴 en seguridad ni operación delante de un cliente— y una tabla de
+síntoma → bloque. Las fases viven en `references/` y se cargan de una en una.
+
+Cubre el **criterio**; el **cómo** en n8n lo cubren las `n8n-*-official`. Los
+puntos conservan la numeración del checklist (`2.11`, `6.3`) para poder citarlos
+contra el entregable original.
+
 ## Estructura
 
 ```
@@ -149,5 +161,6 @@ lib/
 └── data.ts            # carta y reseñas hardcodeadas
 proxy.ts               # refresco de sesión (antes middleware.ts)
 scripts/n8n.py         # cliente de la Public API de n8n
+.claude/skills/        # agente-n8n/ es nuestra; el resto, enlaces a .agents/skills/
 supabase/migrations/   # SQL, fuente de verdad del esquema
 ```
