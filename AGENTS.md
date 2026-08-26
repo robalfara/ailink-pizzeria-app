@@ -133,6 +133,56 @@ claude plugin install n8n-skills@n8n-io --scope project
 - Las skills se cargan al **arrancar la sesión**: tras instalar hace falta
   `/reload-plugins` o abrir una sesión nueva.
 
+### Skills de terceros — CLI `skills` y `skills-lock.json`
+
+Se versiona `skills-lock.json` (origen y hash de cada una) y se ignora el
+contenido descargado en `.agents/`, que son varios MB de terceros. Los enlaces
+de `.claude/skills/` que apuntan ahí tampoco van al repo.
+
+| Skill | Origen |
+|---|---|
+| `frontend-design` | `anthropics/skills` |
+| `nextjs-supabase-auth` | `sickn33/antigravity-awesome-skills` |
+| `supabase` | `supabase/agent-skills` |
+| `supabase-postgres-best-practices` | `supabase/agent-skills` |
+
+**Restaurar en un clon nuevo son DOS pasos.** El primero descarga; el segundo es
+el que hace que Claude Code las vea.
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+
+# 1 · descargar desde el lockfile  (el comando es experimental_install, no
+#     `install` — `skills install` no existe y da "Missing required argument")
+npx --yes skills experimental_install
+
+# 2 · enlazar para Claude Code — experimental_install NO lo hace, y sin esto
+#     las skills quedan "not linked" y son invisibles
+for d in .agents/skills/*/; do
+  s=$(basename "$d")
+  ln -sfn "../../.agents/skills/$s" ".claude/skills/$s"
+done
+
+# 3 · verificar: las cuatro deben decir "Agents: Claude Code"
+npx --yes skills list
+```
+
+- ⚠️ **El resumen final de `experimental_install` engaña**: cierra con un
+  recuadro tipo *«Installed 1 skill»* que corresponde al último lote, no al
+  total. La fuente fiable es `skills list`, o `ls .agents/skills/`.
+- ⚠️ **`experimental_install` puede reescribir `skills-lock.json`.** Si una
+  skill cambió en su repo de origen, el CLI descarga lo nuevo y actualiza el
+  `computedHash`, y el fichero sale modificado en `git status`. Eso **no** es
+  ruido: significa que un tercero cambió código que corre con permisos completos
+  del agente. Auditar antes de commitear el hash nuevo y, si no convence,
+  revertir el lockfile y reinstalar para quedarse en la versión anterior.
+- Añadir una nueva: `npx --yes skills add <owner>/<repo> --skill <nombre>`. Si
+  el nombre no existe, el CLI lista los disponibles en ese repo. Actualizar
+  todas: `npx --yes skills update`.
+
+El mismo mecanismo, con el mismo lockfile, se usa en `plataforma-relacional-
+vertical-saas`; su skill `setup-entorno` lo documenta para aquel repo.
+
 ### Skill propia — diseñar y auditar agentes
 
 `.claude/skills/agente-n8n/`, versionada en el repo. Destila el checklist
