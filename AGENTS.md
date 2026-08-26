@@ -112,6 +112,27 @@ N8N_WEBHOOK_SECRET=   # openssl rand -base64 32
 - La **Test URL** de n8n solo escucha mientras esté activo "Listen for test
   event". Para que funcione siempre: workflow en Active y **Production URL**.
 
+### Saber de n8n — skills oficiales (plugin)
+
+`n8n-skills@n8n-io` (marketplace `n8n-io/skills`), instalado con **ámbito de
+proyecto** y declarado en `.claude/settings.json`, que sí está versionado. Trae
+14 skills sobre expresiones, loops, subworkflows, agentes, manejo de errores,
+credenciales y depuración, más un hook SessionStart que carga la meta-skill
+`using-n8n-skills-official` al arrancar la sesión.
+
+```bash
+claude plugin marketplace add n8n-io/skills --scope project
+claude plugin install n8n-skills@n8n-io --scope project
+```
+
+- El plugin **también trae un MCP** (`n8n-mcp` → `<n8n_url>/mcp-server/http`).
+  Su `n8n_url` se deja **a propósito sin configurar**: sin valor el servidor no
+  se registra. La gestión de la instancia ya la hace `scripts/n8n.py` y no
+  interesa un tercer camino a n8n con sus propias credenciales. Si algún día se
+  quiere: `/plugin configure n8n-skills@n8n-io`.
+- Las skills se cargan al **arrancar la sesión**: tras instalar hace falta
+  `/reload-plugins` o abrir una sesión nueva.
+
 ## Estructura
 
 ```
