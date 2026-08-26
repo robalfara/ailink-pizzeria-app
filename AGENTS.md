@@ -56,6 +56,62 @@ npx next typegen        # regenerar tipos de rutas si tsc se queja de .next/dev/
 - `lib/data.ts` sigue teniendo la carta hardcodeada, con precios como texto
   (`"9,50 €"`). Al moverla a la base de datos habrá que pasarlos a enteros.
 
+## n8n
+
+Dos integraciones con propósitos opuestos; no confundirlas.
+
+### Gestionar la instancia — API pública v1
+
+`scripts/n8n.py`, cliente stdlib de la Public API: crear, versionar y depurar
+workflows desde el repo. Credenciales en `.env.local` (mismos nombres que el
+repo de CyP, a propósito: un solo patrón por máquina):
+
+```
+N8N_API_URL=https://n8n.synax.ddns.net
+N8N_API_KEY=      # Settings → n8n API → Create an API key
+```
+
+```bash
+python3 scripts/n8n.py list                        # id, activo, nombre
+python3 scripts/n8n.py get <id> [fichero.json]     # bajar para versionar
+python3 scripts/n8n.py create <f.json>
+python3 scripts/n8n.py update <id> <f.json> --yes
+python3 scripts/n8n.py activate|deactivate <id>
+python3 scripts/n8n.py executions [--workflow <id>]
+python3 scripts/n8n.py execution <id>              # datos nodo a nodo
+python3 scripts/n8n.py raw GET /lo-que-sea         # escotilla
+```
+
+- El schema es `additionalProperties: false` en `node` y en `workflowSettings`,
+  y el GET devuelve claves que el PUT rechaza con 400 (`binaryMode`,
+  `availableInMCP`, `timeSavedMode`). El script las filtra del payload.
+- La API key da **escritura sobre toda la instancia**, no solo sobre lo de la
+  pizzería. Por eso `update`, `deactivate` y `delete` exigen `--yes`.
+- Lleva User-Agent propio: urllib con el suyo por defecto se come un 403 detrás
+  de según qué proxy.
+- El endpoint MCP (`/mcp-server/http`) **no** sirve para esto: expone workflows
+  como herramientas, no gestiona la instancia.
+
+### Avisar a n8n desde la app — webhook saliente
+
+`lib/n8n.ts` → `notificarN8n(evento, datos)`. Variables opcionales:
+
+```
+N8N_WEBHOOK_URL=      # URL del Webhook node
+N8N_WEBHOOK_SECRET=   # openssl rand -base64 32
+```
+
+- **Sin variables es un no-op silencioso**: la app arranca igual sin n8n.
+- **Nunca lanza.** Un workflow caído no puede tumbar un alta de cliente; el
+  error se registra en el log del servidor y la acción sigue.
+- Sin prefijo `NEXT_PUBLIC_`: el secreto no puede acabar en el bundle.
+- Se invoca dentro de `after()` de `next/server` para no hacer esperar al
+  usuario. `after()` se ejecuta incluso si la acción termina en `redirect()`.
+- El secreto viaja en la cabecera `x-webhook-secret` y tiene que coincidir con
+  la credencial Header Auth del Webhook node, o la URL es un endpoint público.
+- La **Test URL** de n8n solo escucha mientras esté activo "Listen for test
+  event". Para que funcione siempre: workflow en Active y **Production URL**.
+
 ## Estructura
 
 ```
@@ -68,7 +124,9 @@ lib/
 ├── dal.ts             # data access layer: la barrera de auth
 ├── supabase/          # clientes de servidor y de proxy
 ├── validacion.ts      # validación de formularios y destinoSeguro()
+├── n8n.ts             # aviso saliente a n8n (opcional, nunca lanza)
 └── data.ts            # carta y reseñas hardcodeadas
 proxy.ts               # refresco de sesión (antes middleware.ts)
+scripts/n8n.py         # cliente de la Public API de n8n
 supabase/migrations/   # SQL, fuente de verdad del esquema
 ```
