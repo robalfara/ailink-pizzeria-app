@@ -30,6 +30,16 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Skills de terceros: se instalan con el CLI `skills` y se restauran desde
+# skills-lock.json, que sí se versiona y lleva el hash de cada una. Ni el
+# contenido descargado (.agents/) ni los enlaces que apuntan a él van al repo.
+# Lo propio del proyecto —.claude/skills/agente-n8n— sí se versiona.
+.agents/
+.claude/skills/frontend-design
+.claude/skills/nextjs-supabase-auth
+.claude/skills/supabase
+.claude/skills/supabase-postgres-best-practices
+
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
