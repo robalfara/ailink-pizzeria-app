@@ -1,107 +1,16 @@
-export type MenuItem = {
-  name: string;
-  description: string;
-  price: string;
-  tags?: string[];
-};
-
-export type MenuCategory = {
-  id: string;
-  title: string;
-  emoji: string;
-  items: MenuItem[];
-};
-
-export const menu: MenuCategory[] = [
-  {
-    id: "clasicas",
-    title: "Pizzas Clásicas",
-    emoji: "🍕",
-    items: [
-      {
-        name: "Margherita DOP",
-        description:
-          "San Marzano, mozzarella fior di latte, albahaca fresca y aceite de oliva virgen extra.",
-        price: "9,50 €",
-        tags: ["Veggie"],
-      },
-      {
-        name: "Marinara",
-        description:
-          "Tomate San Marzano, ajo, orégano y aceite de oliva. Sin lácteos, pura tradición.",
-        price: "8,00 €",
-        tags: ["Vegana"],
-      },
-      {
-        name: "Diavola",
-        description:
-          "Salami picante calabrés, mozzarella, tomate y un toque de guindilla.",
-        price: "11,50 €",
-        tags: ["Picante"],
-      },
-      {
-        name: "Quattro Formaggi",
-        description:
-          "Mozzarella, gorgonzola DOP, pecorino romano y parmesano curado 24 meses.",
-        price: "12,00 €",
-        tags: ["Veggie"],
-      },
-    ],
-  },
-  {
-    id: "especiales",
-    title: "Especiales de la Casa",
-    emoji: "⭐",
-    items: [
-      {
-        name: "Tartufo Nero",
-        description:
-          "Crema de trufa negra, mozzarella de búfala, champiñones y rúcula fresca.",
-        price: "15,50 €",
-      },
-      {
-        name: "Prosciutto e Rucola",
-        description:
-          "Prosciutto di Parma 18 meses, rúcula, virutas de parmesano y tomate cherry.",
-        price: "14,00 €",
-      },
-      {
-        name: "Nduja & Miele",
-        description:
-          "Nduja calabresa, mozzarella, un hilo de miel de acacia y ralladura de limón.",
-        price: "13,50 €",
-        tags: ["Picante"],
-      },
-    ],
-  },
-  {
-    id: "entrantes",
-    title: "Entrantes & Dulces",
-    emoji: "🥗",
-    items: [
-      {
-        name: "Burrata Pugliese",
-        description:
-          "Burrata cremosa entera, tomate confitado, albahaca y pan de masa madre.",
-        price: "9,00 €",
-        tags: ["Veggie"],
-      },
-      {
-        name: "Arancini di Riso",
-        description:
-          "Croquetas de risotto rellenas de ragú y mozzarella, fritas al momento (4 uds).",
-        price: "7,50 €",
-      },
-      {
-        name: "Tiramisù della Nonna",
-        description:
-          "Receta familiar con mascarpone, café espresso y cacao amargo.",
-        price: "6,50 €",
-        tags: ["Veggie"],
-      },
-    ],
-  },
-];
+/**
+ * Contenido estático de la landing.
+ *
+ * Aquí vivía también la carta (`menu`, `MenuItem`, `MenuCategory`), y era la
+ * segunda fuente de verdad de un dato que ya estaba en la base de datos
+ * (`supabase/migrations/0002_carta.sql`). Se ha ido entera: la pinta
+ * `app/components/Menu.tsx` leyendo de `obtenerCarta()`, así que subir un
+ * precio vuelve a ser un solo sitio y un plato agotado desaparece a la vez de
+ * la landing y de lo que cuenta el agente.
+ *
+ * Lo que queda son textos de marketing sin equivalente en la base de datos:
+ * nadie los edita desde fuera del repo y el agente no los necesita.
+ */
 
 export type Review = {
   name: string;

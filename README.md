@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Forno Nostro
 
-## Getting Started
+Landing de pizzería con área de cliente. Next.js 16 (App Router) y Supabase.
 
-First, run the development server:
+## Puesta en marcha
 
 ```bash
+npm ci
+cp .env.example .env.local   # y rellenarlo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Hacen falta además dos cosas en el proyecto de Supabase:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Esquema.** Ejecutar `supabase/migrations/0001_profiles.sql` en el SQL Editor
+   del dashboard. Crea la tabla `profiles`, sus políticas de RLS y el trigger que
+   da de alta el perfil al registrarse.
+2. **URLs de auth.** En Authentication → URL Configuration, añadir la URL local
+   (`http://localhost:3000/**`) a *Redirect URLs*. Sin esto, el enlace del email
+   de confirmación no vuelve a la aplicación.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> Si el puerto 3000 está ocupado, Next arranca en el 3001 y `NEXT_PUBLIC_SITE_URL`
+> tiene que apuntar al puerto real, o los emails de confirmación llevarán a un
+> sitio donde no hay nada escuchando.
 
-## Learn More
+## Cómo funciona el login
 
-To learn more about Next.js, take a look at the following resources:
+- Registro y login son **Server Actions** (`app/(auth)/acciones.ts`).
+- La sesión vive en **cookies `httpOnly`** que gestiona `@supabase/ssr`, y la
+  refresca `proxy.ts` en cada petición.
+- Quien decide si hay sesión es **`lib/dal.ts`**, lo más cerca posible del dato.
+  El redirect del proxy es solo una comprobación optimista para no pintar
+  pantallas inútiles.
+- El alta exige **confirmar el email**: tras registrarse todavía no hay sesión
+  hasta que se abre el enlace, que aterriza en `app/auth/confirmar/route.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Despliegue
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ya **no** es un sitio estático: `next build` no genera `out/`. Necesita un runtime
+Node (`next build` + `next start`, o Docker con `output: "standalone"`).
 
-## Deploy on Vercel
+Al desplegar hay que recordar:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Un **build por entorno**: las `NEXT_PUBLIC_*` se incrustan en el bundle durante
+  el build, no se leen en runtime.
+- `NEXT_PUBLIC_SITE_URL` con el dominio real, y ese dominio dado de alta en las
+  Redirect URLs del dashboard.
+- Si hay varias instancias detrás de un balanceador, fijar
+  `NEXT_SERVER_ACTIONS_ENCRYPTION_KEY` para que las Server Actions no fallen al
+  saltar de instancia.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Comandos
+
+| Comando | Qué hace |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm run start` | Sirve el build |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Comprobación de tipos |
+
+Más detalle y los caveats del stack, en [`AGENTS.md`](./AGENTS.md).

@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Forno Nostro · arquitectura de la app",
+    "output": "arquitectura.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "camino-web",
+        "label": "Camino web",
+        "focus": [
+          "navegador",
+          "proxy",
+          "nextjs",
+          "dal",
+          "supabaseAuth",
+          "postgres"
+        ],
+        "note": "De la cookie a la carta: toda acción revalida en lib/dal.ts antes de tocar Postgres."
+      },
+      {
+        "id": "camino-chat",
+        "label": "Camino del chat",
+        "focus": [
+          "navegador",
+          "proxy",
+          "chatApi",
+          "limites",
+          "n8n",
+          "llm"
+        ],
+        "note": "El navegador nunca habla con n8n: /api/chat tiene el secreto y decide el sessionId."
+      },
+      {
+        "id": "doble-limitador",
+        "label": "Los dos limitadores",
+        "focus": [
+          "chatApi",
+          "limites",
+          "n8n",
+          "postgres",
+          "llm"
+        ],
+        "note": "El filtro barato vive en el proceso de Next; el backstop de gasto, en Postgres y delante del nodo Agent."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "navegador",
+      "type": "external",
+      "label": "Navegador",
+      "sublabel": "Landing · /cuenta",
+      "tag": "widget de chat",
+      "pos": [
+        60,
+        230
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "chatApi",
+      "type": "backend",
+      "label": "/api/chat",
+      "sublabel": "Puerta del agente",
+      "tag": "413 · 403 Origin",
+      "pos": [
+        317,
+        60
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "proxy",
+      "type": "security",
+      "label": "proxy.ts",
+      "sublabel": "Cookie de sesión",
+      "tag": "runtime Node",
+      "pos": [
+        317,
+        230
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "nextjs",
+      "type": "frontend",
+      "label": "Next.js",
+      "sublabel": "RSC y acciones",
+      "tag": "App Router",
+      "brand": "next-js",
+      "pos": [
+        317,
+        400
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "limites",
+      "type": "backend",
+      "label": "lib/limites.ts",
+      "sublabel": "Cubos en memoria",
+      "pos": [
+        574,
+        230
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "dal",
+      "type": "security",
+      "label": "lib/dal.ts",
+      "sublabel": "Barrera de auth",
+      "tag": "getUser()",
+      "pos": [
+        574,
+        400
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "n8n",
+      "type": "cloud",
+      "label": "n8n",
+      "sublabel": "Agente de sala",
+      "tag": "webhook de producción",
+      "pos": [
+        831,
+        60
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "external",
+      "label": "Proveedor LLM",
+      "sublabel": "gpt-4.1-mini",
+      "tag": "sin tope en la consola",
+      "pos": [
+        1088,
+        60
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "Supabase Postgres",
+      "sublabel": "RLS y funciones",
+      "tag": "agente.cuota()",
+      "brand": "supabase",
+      "pos": [
+        1088,
+        230
+      ],
+      "size": [
+        200,
+        70
+      ]
+    },
+    {
+      "id": "supabaseAuth",
+      "type": "security",
+      "label": "Supabase Auth",
+      "sublabel": "Email y contraseña",
+      "tag": "cookie httpOnly",
+      "pos": [
+        1088,
+        400
+      ],
+      "size": [
+        200,
+        70
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Servidor Next.js · runtime Node",
+      "wraps": [
+        "proxy",
+        "limites",
+        "chatApi",
+        "nextjs",
+        "dal"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Supabase · proyecto gestionado",
+      "wraps": [
+        "postgres",
+        "supabaseAuth"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "nav-proxy",
+      "from": "navegador",
+      "to": "proxy",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "proxy-chat",
+      "from": "proxy",
+      "to": "chatApi",
+      "label": "POST /api/chat"
+    },
+    {
+      "id": "proxy-app",
+      "from": "proxy",
+      "to": "nextjs",
+      "label": "refresca la sesión",
+      "labelDy": 34
+    },
+    {
+      "id": "chat-limites",
+      "from": "chatApi",
+      "to": "limites",
+      "label": "20/5 min · 30/min · 400/h"
+    },
+    {
+      "id": "chat-n8n",
+      "from": "chatApi",
+      "to": "n8n",
+      "label": "webhook con secreto",
+      "variant": "security"
+    },
+    {
+      "id": "n8n-llm",
+      "from": "n8n",
+      "to": "llm",
+      "label": "nodo Agent"
+    },
+    {
+      "id": "n8n-cuota",
+      "from": "n8n",
+      "to": "postgres",
+      "label": "cuota() y tools · security definer",
+      "variant": "security"
+    },
+    {
+      "id": "app-dal",
+      "from": "nextjs",
+      "to": "dal",
+      "label": "toda acción revalida",
+      "labelDy": -38
+    },
+    {
+      "id": "dal-db",
+      "from": "dal",
+      "to": "postgres",
+      "label": "carta y perfil bajo RLS",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "dal-auth",
+      "from": "dal",
+      "to": "supabaseAuth",
+      "label": "getUser()",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Camino web",
+      "items": [
+        "proxy.ts refresca la cookie en cada petición",
+        "lib/dal.ts revalida con getUser(), nunca getSession()",
+        "La carta la filtra la policy RLS, no un WHERE del DAL"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Camino del chat",
+      "items": [
+        "El navegador nunca habla con n8n",
+        "/api/chat decide el sessionId y guarda el secreto",
+        "n8n solo tiene EXECUTE sobre diez funciones"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "La factura",
+      "items": [
+        "cuota() corre antes del nodo Agent y falla cerrado",
+        "activo = false corta el chat, sin desplegar nada",
+        "No hay tope de gasto en la consola del proveedor"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "name": "[Forno Nostro] Registrar fallos de ejecucion",
+  "nodes": [
+    {
+      "name": "Cuando algo falla",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {},
+      "notes": "Se dispara desde settings.errorWorkflow del agente. No hay que activarlo a mano."
+    },
+    {
+      "name": "Redactar el fallo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// El Error Trigger recibe la ejecucion que ha fallado, no el error pelado.\n// Aqui se destila a algo que se pueda leer de un vistazo.\n//\n// Sin datos del cliente: ni el texto del mensaje, ni el telefono, ni el\n// sessionId (bloque 10). Lo que hace falta para arreglar un fallo es el nodo,\n// el error y el id de ejecucion; lo demas es mandar datos de alguien a un sitio\n// que no los necesita.\n\nconst e = $input.first().json;\nconst wf = e.workflow ?? {};\nconst ex = e.execution ?? {};\nconst err = ex.error ?? e.trigger?.error ?? {};\n\nconst nodo = ex.lastNodeExecuted ?? err.node?.name ?? 'desconocido';\nconst mensaje = String(err.message ?? 'sin mensaje').slice(0, 300);\n\n// La huella es lo que hace de antispam en la 0005: el indice unico es\n// (nivel, dia local, huella). Con el nodo y el mensaje dentro, un bucle de\n// fallos identicos colapsa en UNA fila al dia, y dos fallos distintos se ven\n// los dos. Sin ella, un workflow en bucle llena la tabla y el registro deja de\n// servir justo cuando mas falta hace.\nconst huella = (wf.id ?? '?') + ':' + nodo + ':' + mensaje.slice(0, 120);\n\nconst partes = [\n  'Workflow: ' + (wf.name ?? '?') + ' (' + (wf.id ?? '?') + ')',\n  'Nodo: ' + nodo,\n  'Error: ' + mensaje,\n  'Ejecucion: ' + (ex.id ?? '?'),\n];\nif (ex.url) partes.push('URL: ' + ex.url);\n\nreturn [{\n  json: {\n    nivel: 'ejecucion',\n    titulo: 'Ha fallado una ejecucion: ' + nodo,\n    detalle: partes.join('\\n'),\n    contexto: {\n      workflow_id: wf.id ?? null,\n      workflow: wf.name ?? null,\n      nodo: nodo,\n      execution_id: ex.id ?? null,\n      url: ex.url ?? null,\n      modo: ex.mode ?? null,\n    },\n    huella: huella,\n  },\n}];"
+      },
+      "notes": "Destila la ejecucion caida y calcula la huella que hace de antispam en la 0005."
+    },
+    {
+      "name": "Registrar el fallo",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select agente.registrar_aviso($1, $2, $3, $4::jsonb, $5) as nuevo",
+        "options": {
+          "queryReplacement": "={{ [ $json.nivel, $json.titulo, $json.detalle, JSON.stringify($json.contexto), $json.huella ] }}"
+        }
+      },
+      "notes": "Escribe en agente.avisos. Si esto falla no hay red debajo: se mira en Executions.",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "postgres": {
+          "id": "2Bc8enWUgrnKdaoV",
+          "name": "Supabase Forno Nostro"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cuando algo falla": {
+      "main": [
+        [
+          {
+            "node": "Redactar el fallo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redactar el fallo": {
+      "main": [
+        [
+          {
+            "node": "Registrar el fallo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  }
+}

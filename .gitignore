@@ -30,8 +30,21 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Skills de terceros: se instalan con el CLI `skills` y se restauran desde
+# skills-lock.json, que sí se versiona y lleva el hash de cada una. Ni el
+# contenido descargado (.agents/) ni los enlaces que apuntan a él van al repo.
+# Lo propio del proyecto —.claude/skills/agente-n8n— sí se versiona.
+.agents/
+.claude/skills/archify
+.claude/skills/archify-review
+.claude/skills/frontend-design
+.claude/skills/nextjs-supabase-auth
+.claude/skills/supabase
+.claude/skills/supabase-postgres-best-practices
+
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +52,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# playwright: informes, trazas y capturas de cada corrida. `test-results/`
+# lleva además `sesiones-e2e.txt`, la lista de sesiones que la limpieza tiene
+# que borrar de la base — es estado de una corrida, no del repo.
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Traspaso entre sesiones de trabajo, no documentación del proyecto. Lleva el
+# estado operativo —qué está roto hoy, los ids de la instancia, el interruptor
+# de pánico, las URLs de producción— y este repo es público. El diseño sí se
+# documenta, en AGENTS.md y en n8n/README.md.
+handoff.md
+
+# Material del Grupo VIP de Ailink: entregables producidos para el grupo, no
+# código de este proyecto. La skill .claude/skills/agente-n8n/ sí se versiona
+# porque es reescritura propia, no el documento entregado.
+misc/

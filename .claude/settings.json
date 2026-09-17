@@ -1,0 +1,20 @@
+{
+  "enabledPlugins": {
+    "n8n-skills@n8n-io": true,
+    "excalidraw@yogsma-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "n8n-io": {
+      "source": {
+        "source": "github",
+        "repo": "n8n-io/skills"
+      }
+    },
+    "yogsma-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "yogsma/excalidraw-plugin"
+      }
+    }
+  }
+}
