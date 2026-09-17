@@ -132,3 +132,58 @@ export function destinoSeguro(valor: FormDataEntryValue | null): string {
 
   return valor;
 }
+
+/**
+ * Validación del mensaje que llega al chat del agente.
+ *
+ * Aquí no hay FormData: el widget habla con un Route Handler por JSON, así que
+ * lo que llega es `unknown` de verdad y hay que estrecharlo a mano.
+ *
+ * El tope de 1000 caracteres no es cosmético. Cada carácter que entra son
+ * tokens que se pagan, y los mensajes larguísimos son además el vehículo
+ * habitual de una inyección de prompt: nadie pregunta por la carta en tres mil
+ * palabras.
+ */
+export const MAXIMO_MENSAJE = 1000;
+
+/**
+ * Formato UUID canónico, en un solo sitio.
+ *
+ * Estaba copiado byte a byte aquí y en `app/api/chat/route.ts`. Dos copias de
+ * la misma regla son dos cosas que corregir cuando cambie una: bastaba con que
+ * alguien relajase una de las dos para que el identificador dejara de ser un
+ * UUID justo en el lado que importa.
+ *
+ * Sin flag `g` a propósito: un regex global guarda `lastIndex` entre llamadas y
+ * un `test()` compartido empezaría a fallar una de cada dos veces.
+ */
+export const FORMATO_UUID =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export function validarMensajeChat(cuerpo: unknown) {
+  if (typeof cuerpo !== "object" || cuerpo === null) {
+    return { ok: false as const, motivo: "El cuerpo no es un objeto." };
+  }
+
+  const { texto, mensajeId } = cuerpo as Record<string, unknown>;
+
+  if (typeof texto !== "string" || texto.trim().length === 0) {
+    return { ok: false as const, motivo: "Falta el texto del mensaje." };
+  }
+
+  if (texto.length > MAXIMO_MENSAJE) {
+    return {
+      ok: false as const,
+      motivo: `El mensaje no puede pasar de ${MAXIMO_MENSAJE} caracteres.`,
+    };
+  }
+
+  // Lo genera el navegador con crypto.randomUUID(). Se exige el formato para
+  // que no sirva de comodín: el servidor lo va a usar como clave de
+  // idempotencia y una cadena libre permitiría colisiones a propósito.
+  if (typeof mensajeId !== "string" || !FORMATO_UUID.test(mensajeId)) {
+    return { ok: false as const, motivo: "El identificador no es un UUID." };
+  }
+
+  return { ok: true as const, datos: { texto: texto.trim(), mensajeId } };
+}
