@@ -18,8 +18,10 @@ Uso:
 
 Credenciales: N8N_API_URL y N8N_API_KEY en .env.local (o .env) en la raíz.
 Mismos nombres que en el repo de CyP, a propósito: un solo patrón por máquina.
+La URL tiene que ser https:// o el script aborta: la API key viaja en cabecera
+y con http:// iría en claro. Excepción: localhost/127.0.0.1 para pruebas.
 """
-import argparse, json, sys, urllib.request, urllib.error
+import argparse, json, re, sys, urllib.request, urllib.error
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +29,23 @@ ROOT = Path(__file__).resolve().parent.parent
 # Algunos proxies (Cloudflare entre ellos) rechazan el User-Agent por defecto de
 # urllib con un 403. Cualquier UA propio pasa.
 UA = "pizzeria-n8n/1.0"
+
+
+# La API key viaja en una cabecera en cada petición. Un `http://` colado en el
+# .env la manda en claro por la red y nada avisa: se corta antes de salir.
+# Se admite http contra localhost/127.0.0.1 porque ahí el tráfico no abandona la
+# máquina y una instancia de n8n de pruebas rara vez tiene TLS.
+LOCAL = re.compile(r"^http://(localhost|127\.0\.0\.1)(:\d+)?(/.*)?$")
+
+
+def exigir_https(url, variable):
+    if url.startswith("https://") or LOCAL.match(url):
+        return
+    sys.exit(
+        f"ERROR: {variable} tiene que empezar por https:// — con http:// la "
+        "API key viajaría en claro.\n"
+        "  Excepción para pruebas locales: http://localhost o http://127.0.0.1."
+    )
 
 
 def load_env():
@@ -44,6 +63,7 @@ def load_env():
             env[k.strip()] = v.strip().strip('"').strip("'")
         url, key = env.get("N8N_API_URL", "").rstrip("/"), env.get("N8N_API_KEY", "")
         if url and key:
+            exigir_https(url, "N8N_API_URL")
             return url, key
     sys.exit("ERROR: faltan N8N_API_URL o N8N_API_KEY en .env.local")
 
@@ -59,10 +79,17 @@ def api(method, path, body=None, query=""):
         headers={"X-N8N-API-KEY": KEY, "accept": "application/json",
                  "content-type": "application/json", "User-Agent": UA},
     )
+    raw = b""
     try:
         with urllib.request.urlopen(req) as r:
             raw = r.read()
             return json.loads(raw) if raw else {}
+    except json.JSONDecodeError:
+        # Un 200 con cuerpo que no es JSON casi siempre es la página HTML del
+        # proxy que hay delante (el mismo del comentario del User-Agent), no la
+        # API. Sin esto salía un traceback crudo en vez del ERROR de siempre.
+        sys.exit(f"ERROR: respuesta no-JSON en {method} {path}\n"
+                 f"{raw[:500].decode(errors='replace')}")
     except urllib.error.HTTPError as e:
         detalle = e.read().decode(errors="replace")[:500]
         sys.exit(f"ERROR {e.code} en {method} {path}\n{detalle}")
@@ -117,8 +144,12 @@ def cmd_get(args):
     d = api("GET", f"/workflows/{args.id}")
     salida = json.dumps(d, indent=2, ensure_ascii=False)
     if args.fichero:
-        Path(args.fichero).write_text(salida + "\n", encoding="utf-8")
-        print(f"escrito: {args.fichero} ({len(d.get('nodes', []))} nodos)")
+        destino = Path(args.fichero)
+        # `get <id> n8n/workflows/x.json` con el directorio sin crear daba un
+        # FileNotFoundError crudo después de haber bajado ya el workflow.
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text(salida + "\n", encoding="utf-8")
+        print(f"escrito: {destino} ({len(d.get('nodes', []))} nodos)")
     else:
         print(salida)
 
