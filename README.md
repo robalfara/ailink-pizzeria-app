@@ -1,6 +1,6 @@
 # Forno Nostro
 
-Landing de pizzería con área de cliente. Next.js 16 (App Router) y Supabase.
+Landing de pizzería con área de cliente. Next.js 16 (App Router) y Supabase. Agente Nina.
 
 ## Puesta en marcha
 

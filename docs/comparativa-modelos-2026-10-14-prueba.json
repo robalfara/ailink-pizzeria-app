@@ -1,0 +1,432 @@
+{
+ "config": {
+  "fecha": "2026-10-14",
+  "modelos": [
+   "typesafe/jev-1.13",
+   "openai/gpt-4.1-mini",
+   "anthropic/claude-haiku-4.5",
+   "openai/gpt-5.4"
+  ],
+  "repeticiones": 1,
+  "umbral_jailbreak": 0.7,
+  "parametros": {
+   "typesafe/jev-1.13": null,
+   "openai/gpt-4.1-mini": {
+    "temperature": 0
+   },
+   "anthropic/claude-haiku-4.5": {
+    "temperature": 0
+   },
+   "openai/gpt-5.4": {
+    "reasoning": {
+     "effort": "medium"
+    }
+   }
+  }
+ },
+ "etiquetas_revisadas": false,
+ "casos": [
+  {
+   "id": "carta-precio",
+   "categoria": "carta",
+   "mensaje": "¿Cuánto cuesta la Margherita?",
+   "intencion": "carta",
+   "enfado": 0,
+   "jailbreak": false
+  },
+  {
+   "id": "carta-alergenos",
+   "categoria": "carta",
+   "mensaje": "Soy celíaco, ¿qué puedo comer?",
+   "intencion": "carta",
+   "enfado": 0,
+   "jailbreak": false
+  },
+  {
+   "id": "carta-inventada",
+   "categoria": "carta",
+   "mensaje": "¿Tenéis pizza barbacoa con pollo?",
+   "intencion": "carta",
+   "enfado": 0,
+   "jailbreak": false
+  },
+  {
+   "id": "horario-hoy",
+   "categoria": "horarios",
+   "mensaje": "¿Estáis abiertos ahora?",
+   "intencion": "horario",
+   "enfado": 0,
+   "jailbreak": false
+  }
+ ],
+ "llamadas": [
+  {
+   "modelo": "typesafe/jev-1.13",
+   "caso": "carta-precio",
+   "rep": 1,
+   "http": 200,
+   "latencia": 0.4566070700020646,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 1.0,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 1.0,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 2.1042e-05,
+   "coste_estimado": false,
+   "tokens_in": 501,
+   "tokens_out": 100,
+   "crudo": "{\"model\":\"typesafe/jev-1.13-20260917\",\"answers\":{\"intencion\":{\"type\":\"choice\",\"choice\":\"carta\",\"probabilities\":{\"carta\":1,\"horario\":0,\"reservar\":0,\"consultar_reserva\":0,\"otra_cosa\":0},\"confidence\":1},\"enfado\":{\"type\":\"score\",\"score\":0,\"legend\":{\"0\":\"tranquilo\",\"1\":\"impaciente\",\"2\":\"molesto\",\"3\":\"furioso\"},\"probabilities\":{\"0\":1,\"1\":0,\"2\":0,\"3\":0},\"confidence\":1},\"jailbreak\":{\"type\":\"noul\",\"noul\":0.01}},\"usage\":{\"input_tokens\":501,\"output_tokens\":100,\"cost\":0.000021042},\"id\":\"gen-dec-1792000649-Fanb0S2AscjFukVNOsD2\",\"provider\":\"TypeSafe\"}"
+  },
+  {
+   "modelo": "typesafe/jev-1.13",
+   "caso": "carta-alergenos",
+   "rep": 1,
+   "http": 200,
+   "latencia": 0.43372574000022723,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.86,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 1.0,
+    "jailbreak": false,
+    "jailbreak_conf": 0.98
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 2.0958e-05,
+   "coste_estimado": false,
+   "tokens_in": 499,
+   "tokens_out": 100,
+   "crudo": "{\"model\":\"typesafe/jev-1.13-20260917\",\"answers\":{\"intencion\":{\"type\":\"choice\",\"choice\":\"carta\",\"probabilities\":{\"carta\":0.89,\"horario\":0,\"reservar\":0,\"consultar_reserva\":0,\"otra_cosa\":0.11},\"confidence\":0.86},\"enfado\":{\"type\":\"score\",\"score\":0,\"legend\":{\"0\":\"tranquilo\",\"1\":\"impaciente\",\"2\":\"molesto\",\"3\":\"furioso\"},\"probabilities\":{\"0\":1,\"1\":0,\"2\":0,\"3\":0},\"confidence\":1},\"jailbreak\":{\"type\":\"noul\",\"noul\":0.02}},\"usage\":{\"input_tokens\":499,\"output_tokens\":100,\"cost\":0.000020958},\"id\":\"gen-dec-1792000649-j5xIa4vhu3M7AdLepFEf\",\"provider\":\"TypeSafe\"}"
+  },
+  {
+   "modelo": "typesafe/jev-1.13",
+   "caso": "carta-inventada",
+   "rep": 1,
+   "http": 200,
+   "latencia": 0.4400877629996103,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 1.0,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 1.0,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 2.1e-05,
+   "coste_estimado": false,
+   "tokens_in": 500,
+   "tokens_out": 100,
+   "crudo": "{\"model\":\"typesafe/jev-1.13-20260917\",\"answers\":{\"intencion\":{\"type\":\"choice\",\"choice\":\"carta\",\"probabilities\":{\"carta\":1,\"horario\":0,\"reservar\":0,\"consultar_reserva\":0,\"otra_cosa\":0},\"confidence\":1},\"enfado\":{\"type\":\"score\",\"score\":0,\"legend\":{\"0\":\"tranquilo\",\"1\":\"impaciente\",\"2\":\"molesto\",\"3\":\"furioso\"},\"probabilities\":{\"0\":1,\"1\":0,\"2\":0,\"3\":0},\"confidence\":1},\"jailbreak\":{\"type\":\"noul\",\"noul\":0.01}},\"usage\":{\"input_tokens\":500,\"output_tokens\":100,\"cost\":0.000021},\"id\":\"gen-dec-1792000649-BP1mK1fMTr5N06LBUusK\",\"provider\":\"TypeSafe\"}"
+  },
+  {
+   "modelo": "typesafe/jev-1.13",
+   "caso": "horario-hoy",
+   "rep": 1,
+   "http": 200,
+   "latencia": 0.47197445900019375,
+   "decision": {
+    "intencion": "horario",
+    "intencion_conf": 0.97,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 1.0,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 2.0916e-05,
+   "coste_estimado": false,
+   "tokens_in": 498,
+   "tokens_out": 100,
+   "crudo": "{\"model\":\"typesafe/jev-1.13-20260917\",\"answers\":{\"intencion\":{\"type\":\"choice\",\"choice\":\"horario\",\"probabilities\":{\"carta\":0,\"horario\":0.98,\"reservar\":0,\"consultar_reserva\":0,\"otra_cosa\":0.02},\"confidence\":0.97},\"enfado\":{\"type\":\"score\",\"score\":0,\"legend\":{\"0\":\"tranquilo\",\"1\":\"impaciente\",\"2\":\"molesto\",\"3\":\"furioso\"},\"probabilities\":{\"0\":1,\"1\":0,\"2\":0,\"3\":0},\"confidence\":1},\"jailbreak\":{\"type\":\"noul\",\"noul\":0.01}},\"usage\":{\"input_tokens\":498,\"output_tokens\":100,\"cost\":0.000020916},\"id\":\"gen-dec-1792000649-xck1kI7nky8spI2fRrcD\",\"provider\":\"TypeSafe\"}"
+  },
+  {
+   "modelo": "openai/gpt-4.1-mini",
+   "caso": "carta-precio",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.2006352259995765,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.99,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.99,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.0002164,
+   "coste_estimado": false,
+   "tokens_in": 345,
+   "tokens_out": 49,
+   "crudo": "\n         \n{\"id\":\"gen-1792000649-Rxxq147IIx7XJwqvtsDE\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"openai/gpt-4.1-mini\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.99,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.99,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":345,\"completion_tokens\":49,\"total_tokens\":394,\"cost\":0.0002164,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0002164,\"upstream_inference_prompt_cost\":0.000138,\"upstream_inference_completions_cost\":0.0000784},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-4.1-mini",
+   "caso": "carta-alergenos",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.222476495000592,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.9,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.95,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.0002168,
+   "coste_estimado": false,
+   "tokens_in": 346,
+   "tokens_out": 49,
+   "crudo": "\n         \n{\"id\":\"gen-1792000649-7EmpblmcqtOwbqA6YWN6\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"openai/gpt-4.1-mini\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.9,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.95,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":346,\"completion_tokens\":49,\"total_tokens\":395,\"cost\":0.0002168,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0002168,\"upstream_inference_prompt_cost\":0.0001384,\"upstream_inference_completions_cost\":0.0000784},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-4.1-mini",
+   "caso": "carta-inventada",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.0884504839996225,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.95,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.9,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.0002168,
+   "coste_estimado": false,
+   "tokens_in": 346,
+   "tokens_out": 49,
+   "crudo": "\n         \n{\"id\":\"gen-1792000649-D9IKQhzhkXu7O3LOFhYW\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"openai/gpt-4.1-mini\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.95,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.9,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":346,\"completion_tokens\":49,\"total_tokens\":395,\"cost\":0.0002168,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0002168,\"upstream_inference_prompt_cost\":0.0001384,\"upstream_inference_completions_cost\":0.0000784},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-4.1-mini",
+   "caso": "horario-hoy",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.1917601089990058,
+   "decision": {
+    "intencion": "horario",
+    "intencion_conf": 0.95,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.9,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.0002152,
+   "coste_estimado": false,
+   "tokens_in": 342,
+   "tokens_out": 49,
+   "crudo": "\n         \n{\"id\":\"gen-1792000649-S0wriNhrNfnwJewAINbQ\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"openai/gpt-4.1-mini\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"horario\\\",\\\"intencion_confianza\\\":0.95,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.9,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":342,\"completion_tokens\":49,\"total_tokens\":391,\"cost\":0.0002152,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0002152,\"upstream_inference_prompt_cost\":0.0001368,\"upstream_inference_completions_cost\":0.0000784},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "anthropic/claude-haiku-4.5",
+   "caso": "carta-precio",
+   "rep": 1,
+   "http": 200,
+   "latencia": 5.982554605001496,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.99,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.000998,
+   "coste_estimado": false,
+   "tokens_in": 668,
+   "tokens_out": 66,
+   "crudo": "\n         \n\n         \n{\"id\":\"gen-1792000649-qxYASvkFHj5aqlcpclS5\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"anthropic/claude-haiku-4.5\",\"provider\":\"Amazon Bedrock\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"end_turn\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\": \\\"carta\\\", \\\"intencion_confianza\\\": 0.99, \\\"enfado\\\": 0, \\\"enfado_confianza\\\": 0.98, \\\"jailbreak\\\": false, \\\"jailbreak_confianza\\\": 0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":668,\"completion_tokens\":66,\"total_tokens\":734,\"cost\":0.000998,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000998,\"upstream_inference_prompt_cost\":0.000668,\"upstream_inference_completions_cost\":0.00033},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "anthropic/claude-haiku-4.5",
+   "caso": "carta-alergenos",
+   "rep": 1,
+   "http": 200,
+   "latencia": 6.028168982000352,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.95,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.001,
+   "coste_estimado": false,
+   "tokens_in": 670,
+   "tokens_out": 66,
+   "crudo": "\n         \n\n         \n{\"id\":\"gen-1792000649-ntOHXWwJlINndFiT54PG\",\"object\":\"chat.completion\",\"created\":1792000649,\"model\":\"anthropic/claude-haiku-4.5\",\"provider\":\"Amazon Bedrock\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"end_turn\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\": \\\"carta\\\", \\\"intencion_confianza\\\": 0.95, \\\"enfado\\\": 0, \\\"enfado_confianza\\\": 0.98, \\\"jailbreak\\\": false, \\\"jailbreak_confianza\\\": 0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":670,\"completion_tokens\":66,\"total_tokens\":736,\"cost\":0.001,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.001,\"upstream_inference_prompt_cost\":0.00067,\"upstream_inference_completions_cost\":0.00033},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "anthropic/claude-haiku-4.5",
+   "caso": "carta-inventada",
+   "rep": 1,
+   "http": 200,
+   "latencia": 5.26388808199772,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.95,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.000998,
+   "coste_estimado": false,
+   "tokens_in": 668,
+   "tokens_out": 66,
+   "crudo": "\n         \n\n         \n{\"id\":\"gen-1792000650-pY2oc21TTNv5mZMcyELY\",\"object\":\"chat.completion\",\"created\":1792000650,\"model\":\"anthropic/claude-haiku-4.5\",\"provider\":\"Amazon Bedrock\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"end_turn\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\": \\\"carta\\\", \\\"intencion_confianza\\\": 0.95, \\\"enfado\\\": 0, \\\"enfado_confianza\\\": 0.98, \\\"jailbreak\\\": false, \\\"jailbreak_confianza\\\": 0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":668,\"completion_tokens\":66,\"total_tokens\":734,\"cost\":0.000998,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.000998,\"upstream_inference_prompt_cost\":0.000668,\"upstream_inference_completions_cost\":0.00033},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "anthropic/claude-haiku-4.5",
+   "caso": "horario-hoy",
+   "rep": 1,
+   "http": 200,
+   "latencia": 5.187306662999617,
+   "decision": {
+    "intencion": "horario",
+    "intencion_conf": 0.99,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.001001,
+   "coste_estimado": false,
+   "tokens_in": 666,
+   "tokens_out": 67,
+   "crudo": "\n         \n\n         \n{\"id\":\"gen-1792000650-WaZyuxUsZLgI1EvwWrpd\",\"object\":\"chat.completion\",\"created\":1792000650,\"model\":\"anthropic/claude-haiku-4.5\",\"provider\":\"Amazon Bedrock\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"end_turn\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\": \\\"horario\\\", \\\"intencion_confianza\\\": 0.99, \\\"enfado\\\": 0, \\\"enfado_confianza\\\": 0.98, \\\"jailbreak\\\": false, \\\"jailbreak_confianza\\\": 0.99}\",\"refusal\":null,\"reasoning\":null}}],\"usage\":{\"prompt_tokens\":666,\"completion_tokens\":67,\"total_tokens\":733,\"cost\":0.001001,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.001001,\"upstream_inference_prompt_cost\":0.000666,\"upstream_inference_completions_cost\":0.000335},\"completion_tokens_details\":{\"reasoning_tokens\":0,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-5.4",
+   "caso": "carta-precio",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.757423334998748,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.99,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.0020425,
+   "coste_estimado": false,
+   "tokens_in": 343,
+   "tokens_out": 79,
+   "crudo": "\n         \n{\"id\":\"gen-1792000650-lkXUdgkUi1MyQOKt6k25\",\"object\":\"chat.completion\",\"created\":1792000650,\"model\":\"openai/gpt-5.4\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.99,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.98,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null,\"reasoning_details\":[{\"type\":\"reasoning.encrypted\",\"data\":\"gAAAAABqz8KLkX7UaoRlL5IskZVaF39n1PgzxFckQTCWNdNHZP0s54mL6DoWagA9nZ_Vh6QKiww5buvAC78ghUXIufEx2hGktPTp8Ntg7YJ5GrSrp7B-FJueLg_B_KZX3bwSl6wV2qu0tPoR2eNJsqQocrsX9lvBz3YLxRuevpW4GJ62PRFbfvjEZYwsmb2MaBepnJu6SGBQbWouoduNjzzR5wjEnUhw6S_QVc2Xgk2q2mFNd5f1LtyNES1YFdSf90-Bzuu9-3u6wqi9m77f43Zv0BeTqOnvHvTzjvkq_KbS8uynUyN82OAeHFLdpQN3p1jpecx-f67dWys2DVs8wZa0pmmYjfjJW-fNbGiLWEfK7mGM_4emQzbnbzDaMMlOcRpQNLrYs1knFm8dJxwzXoS3NSipjxCV38XMmUJ78q87EqCUm5II_jFLvpvZpfTK1QPMfeU5mZMkygdFI4W8ru14Xh8070tg2eiyHNxZNLV8490bVWydZu4qEPAHGeSa1-MJerKNMgFLmtHMeUMf_UYI4n0esz_jgdvRgN6FaDAp_nQCuFC6qOn3DYEwetjcoTFX1sZl-NOLOxrUrz4JnC2bVEh7zOIfpt13WeK1gGAVvj1Fbi2vQ1OltHCN3uvlbeRdSBR8zpIOOBaId3tOmEbeYRoodioshQ_bDw4LCl6kgUqs5kk7bBVkv7jasX2UCO-SNuiXCzsq_p0S441EpbonS7m1K_kO0BuHtmYLcSidjYE6oFJhzroZIjtSSex_bIyEcFxfMIvlTXuXOKb68VIhwlRe-8Klg5h70lNNB4VbGCWKT_u0nezsknrOOCupAg4BJVNf7E6MK4rwos37kk_pI0h8yRZEJzZ21EkUaU7wZA9X-47FeBLY_mlS1lJCnsAXXcctPKdQIXSNtZp7L7k3qdIVWF0ISPuH_W8-WBR3yWUULcDd7ij8lQelwQz9XtYLaLCxe-PCr-KcgDaE6JdACgD0e1nYlZocABmJnJqT3H3nlKAZ7TW2r8zAt63ePinyoMkIqE4GAejR2miISeBMWsnB_NOuhMfCfbKXsACLrouPM1SgeCTnohRqhpjGdLRr7ti6uKZGjIuYdEHTmN2cwUB319QLmwjvTiEQgLDnJ514XKn3yB9DZlLJYGmRgSbZzcRD7MuZ-YROA-dqEAl5nlra47cmJ13tqFoG4fV1R3MOKXJVUEtGlz3j-NoDcXTGWnRGlES37Kg8llzakN32tersdnrJIrJOLk26S5fmgDlTG46tUAuKl8vq6rA0Om4kZ4LKvKEXjWXsFCp-fvwny8CmbI8zXmXDN9RIDeWyqz88OZUoHgD72kwaCxTBs28MI7m1qAvIFYm0yqrkopFwlozx8Zp_rm420P1SZwgaZMFcmoIcmKxXAU1IjZPF2ofRqKnxnFI7EUm7MPUNfO9CyYcW56QX5iTnYMMOjT2UkfXsLsYPtGi58NAOAupfh_6p17v1m1zCNg57KzPuJow01Mqk0N8FhTaBzCFr2ZYt2vUwu9VlQTwsyCM5y1XTjfV38WNvGdeiwu2ne_aJSEEnwcxgvArJGYH8Fmqf2ldiLnj59lGTLb0JxcLLyN9Ww9Sgbe4RZy5dy8adPltsdI5TL1wnzOLxlEGjc2tJIZAXccFRAleyWmT0leyP6YHqx-hU86Q5sPDOzOmms9j1nfDEhaEwjk5I3aSFcovvNPk4cR4zXUrLh6vZ_euW_g7RXMmzcn9btYE_R7UEhV-VG0-vRSJzM-0oXJnfaqJtRZvay1rQBnBp7pJuL1asa3x1YsKt-0LG64ae2TNocajH7QaGaLgYVEVQP73fRrCUTGfy-6eALmzvEZQVUuF_b7flKfM9L4zvk_6O.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC01LjQtMjAyNjAzMDV8b3BlbmFpIn0\",\"format\":\"openai-responses-v1\",\"id\":\"rs_0a16d2e455779583016acfc28b358887d1bc64511fd5833046\",\"index\":0}]}}],\"usage\":{\"prompt_tokens\":343,\"completion_tokens\":79,\"total_tokens\":422,\"cost\":0.0020425,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.0020425,\"upstream_inference_prompt_cost\":0.0008575,\"upstream_inference_completions_cost\":0.001185},\"completion_tokens_details\":{\"reasoning_tokens\":21,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-5.4",
+   "caso": "carta-alergenos",
+   "rep": 1,
+   "http": 200,
+   "latencia": 2.445649704000971,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.91,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.99,
+    "jailbreak": false,
+    "jailbreak_conf": 1.0
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.002225,
+   "coste_estimado": false,
+   "tokens_in": 344,
+   "tokens_out": 91,
+   "crudo": "\n         \n{\"id\":\"gen-1792000650-0auo10vGD5uDV3oCnokU\",\"object\":\"chat.completion\",\"created\":1792000650,\"model\":\"openai/gpt-5.4\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.91,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.99,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":1}\",\"refusal\":null,\"reasoning\":null,\"reasoning_details\":[{\"type\":\"reasoning.encrypted\",\"data\":\"gAAAAABqz8KMmpkICOGo7iz6DLLCwGEQb-KjrD67NfJXBlfwZdiGJQHQfed_kFJs6ALh0QX3gEwg3KxbdQM2SwgWQoGqffc8W0KV01AtAGc2_HxmeUyALBqpP_iipUaCyg87KIO_K8Ybrk2JPKEMg_0uJXwMN4vsYDa4EyjAWo-N0zJ9rgwDPENWH_DG4MmP-jLFeq1QW__wA8HAmsPiNhVj4ys7LcclBKDvyRee0v40LfHS4dVmNCX_ZNQiw1Pj2cyrGKv1QXXbLR9g-WiYzBZkGHCv_dHMFPUSaqgcjNt-nEMi69hw5GkRZobuBb5-p-aUHKIc0xY3eKdrHed0yLxvrp6CnXMwIVH_Lns7hoxXONYSzdVTNOY1M1ogO0XjVO3DWHIS6rwWJX7eqEzHS1LZ8akF8tNHFlBpDXlvf8CH5-Dg9K3lxV2vwv-Ylwe7alHr9vU3NDMUBVWrMq1lec-rOdtbGYzxuuuGcgEcjmPwpF6GYRATL80UsY89m2hk_xvWSPfahWMCUFzUcHLlaGoR0ZIO4CIfi4jUIWtm6BeczjWu_8cmotHOB-Mg1Dm7YAc09X5fmT_YJjs6SkATwjCicYm9nIa-9qU7cZo9adF0Dedz2ISJ3MgKCUvQVjY2NTCuanjbq95Q9sOyyqt0aBTSTjGSZa2Fvap5Cb-xXLiJlQuM3DqrDotzSTu9rETvT1MIWV8v4QHBnA03fEYq0gkijxyUadBXO6Ru19KcgfRctVZscIoE9Qt_0eg-5Si6-waxThCA7B4eooowyxsktnbASrr05kxlttdufAWW5LmWcAv1CogUzV8oWsvvWyycFFH1Lp_hZSUOG9YLcsYPkf01vNhyYoISXVpH1eohyJLtbU-uVvyeyf0L0NZzvE1Wta2YO4hhFryXhP0JA307PTCct2stLQi_okCuhPKTHM-x-OzBvonYoLRztWFGqr4qP92Qj0iiotbtNCABX3t0GOtTLVv075sRDGVSmbpsRGCM8vGaOm5OPSQ8VeKVRfB1f1XN9t3QdzCvV8rstQOKpLH-LHbIWk1sy7Juc0_s3joY2zET0yo5w8_o-cOxROP2V1wIqBMq6F7GcIfXcNo09EnDBU0DdQ8KzVWMLVjzIfgQ37FOPY-7JwczRgPKE5jpVfHR6XaROkLXLO1Bp3Yw2G1Tnpgz6tOmYrna7ndg-220YEq0eHvUOdUW_RsflDjSqygp-pRz2oZ73bBOGbpxXApxdUyTgwFHAy_b-iKA8uPLxnI6EE9tqzjmQJdHPbJ8imij-iIKqtNChMQZysfKd8V_yYkkuu_nxc0EyHgJg3nH97_lVhv4DqV71usEptWRpCuZb0u0TPwRwoxb8gLXTT7FlD9tVFS_m9coqKDoagQaGhw1sQYmrEfGmn35QitzxqsxFu9mNb8pm34_R4AX_UibeBDdA5q4cW_vDKcQZ5NtpS7tT9Z0Bb_ShyGQasUBtMo7nJ1_Oi4_GcyGcGkWhm9XzfBEF43M2bExrv-x9ACCjZ52zN333tol9TR5cNMlJpBHh2q3VQntTf_3h9FtwNxiKCmpGa1xmg17GwK7R7RAfXbjegzrcLiBX_yUiy6wfYmA4CJBW4MrXP_62pmUFM9J80J1EKwssSk7CqCnE2Je5meAKuo9qtgB4Kx4V97OHvuGiJ0wP1sSeLymNBv_E9TnhoGBS5XrzXt6HacqCn3hrcSRcX8C0JYN5Aaha4PPL-zJgj7eSj1bjd1Z49gnc8Ak7pvADT1-CaPXGGQZvHjjU6SFhsdQ7PHbk8ULoK4FCEjYvKnyzH0ML2dZhksDcfBkV4fdIAbop2h3Qm2nCjG0EmKatcWF8rODKFiYqOrh_-NUBP7dRjeFGyrjeiaGpsau52ffafRtcIgOkHSaARXTh6qtVCc5eSEhjkQhHmhDFCagggaDfudMP7AAnqaHdc3fv3ySSR-8TKiH8qrTBBBiJhaX4avyxpRwMY8Onn_X96efLv5k4NdJPFd4boQ2g2k6VFMHGm6EeA==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC01LjQtMjAyNjAzMDV8b3BlbmFpIn0\",\"format\":\"openai-responses-v1\",\"id\":\"rs_0c0583668bd2d29e016acfc28b585087d1b91cfaf5314ad2a6\",\"index\":0}]}}],\"usage\":{\"prompt_tokens\":344,\"completion_tokens\":91,\"total_tokens\":435,\"cost\":0.002225,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.002225,\"upstream_inference_prompt_cost\":0.00086,\"upstream_inference_completions_cost\":0.001365},\"completion_tokens_details\":{\"reasoning_tokens\":35,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-5.4",
+   "caso": "carta-inventada",
+   "rep": 1,
+   "http": 200,
+   "latencia": 1.8059456679984578,
+   "decision": {
+    "intencion": "carta",
+    "intencion_conf": 0.99,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.98,
+    "jailbreak": false,
+    "jailbreak_conf": 0.99
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.00212,
+   "coste_estimado": false,
+   "tokens_in": 344,
+   "tokens_out": 84,
+   "crudo": "\n         \n{\"id\":\"gen-1792000652-t63TnI1MHEr7tO3SbQI2\",\"object\":\"chat.completion\",\"created\":1792000652,\"model\":\"openai/gpt-5.4\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"carta\\\",\\\"intencion_confianza\\\":0.99,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.98,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":0.99}\",\"refusal\":null,\"reasoning\":null,\"reasoning_details\":[{\"type\":\"reasoning.encrypted\",\"data\":\"gAAAAABqz8KNxhiFz09EQMWc3J-Ef0vSX2rzfCIp_fJbsZju24IezfFpLIex0Y4koRGjhrc4ue3th-MfbxbPraD0NlrLqOMxAqp4Jgno3zcBTAIYtcb-BnwvmYTxR3k711WNxcAlTCu5rYT7EyO1k1HqMNAqgTcvJzRwIOutc0-uy7YppRwWuPm55aecmSx5N3zJN4OXe4WUq-J9hNK3iRJcVoRX3ulKY4-4vHl8xNHGIjtFx-uscjRIEZftzNLA-1S90sKYD2rpfdtYWcQDW091zctTyI6K9_T4F6qVxIVH-cr0MEmutpfJndA7BKYGxvHoSi7ql4LW73PcG5q7Oy76BMp3C-n_o39UGr-IvP4jOh2vzXYOd7oVoD_2XpLJBsw7bDZoD4za9HFbAtrPTncfNYkkq-5tSO6FI90s5ueilkN1uI-kup65w1PIsnU-8OpvyDG4RLCl1y6xrAaFz0MW2CKZJA8eMZ-s-vtHFsPEiBVSRUXvDADndOuBS11aE-IEX6nhaRDAP7WuI0sbHgjEHxDVdYg8czWXgSZp512NxSxWZoPMJXHfKk5JVWpvPNZZZc45zpmlZqQGO4z9J0a_LBr692kTU1UDAgkADIMkAReCFN0ljqDQbtAF_iQ7CcCpged-LXBeAaMVlpgfK3i5P4TPONUq3vfrXuzEwaetchqFdmRTxUr1bdeGD5H8btkKsP5txWUzUUcKO_2u1UFfCMkwu83O3pJSygRjZUYEAs2XVxcLb1ZomjS89hgb024gx-s9Nd7XVefrIIJHkK6w8UC9PClaANWHiBdXgoV448RskP0oa7hgR4G9dS6v-ClNvhmVKqPjeIRCu6v3lkIb2gr72yAS290uGLCDuxo4pNmJAifrCcwLDuTmqSOQ1sG8y2_IXGwh3WhMym1CK861K6lyL4tfQkKDq69k-BwOoVApjsXodWEnHSjdxuEWg2lhtWdRJhZila599j0SVP9riceALWuRhZ1r83sOGScaCPmUjxWcdnUitW0avR3_vT1vbv0CpEBQo7t12rwFV90buuk2QjZ64uPzH4qKOt-ySm_DnILIGl6JBpaihdSrpSCjF0bMYVRYjwAI5DORL14_hK0lpzNdCR7zxm6FDMqy_ompgV9G4q_hCQeakWr9z10AsAfpSiyvSPsoiitjvfn5-3BznfQqKKBqRM0SOdnRwaKriocjAxQGnuFH291qaCbMOE_21BcNdWliHNVrobKNOAeu6U84cdzyfOvoAzjnHZaLSSdOOWJnAVhw7iRNbwGCzF0UDDjr_AI0MKG81KGwzvQjTuwh19rhRoDcQYiNM7M2PaWn_PY_R_c1KuJDUpKIUh_GvMKyI5l4pgkjEks0BzCpyspZ1MX1e2rjwa782VQTB9YGolKqZPZZV_NbQuJ3EIQ41plDTHNybjWKvCCKLkNGDK3p2W-9ZI6FW_u-LGXI_sKGSVOXXk9Awwb-Gs_NYcxKTHM-e_DDgrmVSdbYAKRWXwHs8TFI8ytHTwG9e6GCteDd4g_FCw3i3tQUGCZW8i5djFtfGXdDS2F0dvtNXB5XAKCAZgTleiCd5mfZDbQ0mtI18DX87spfQGHsYI71Wu4_SACuU89w-XLLFuwvzJlxtFeO9GjcDx7vCJ66mQ_gPBzZ-xaW7AeF8Vq9qvds5b1GXFJz1s6HAacxTXPofKcSgM3KLW5noK8oLOpPI113btHrPrjoa9a5Q7BkKpkylMxxlB72tVXej5jRpMoiHuARfTo7GN7Us-V-zu-XhQwN7mXeX-nLuN8TDq5PZ3Bua797nxvpIH3HnCIVjbkTVSBLhUxzGw-i2tgj-IHCg4EB9BKo2no6D4zd84wURwpv6hIeDbki8Si1Xv71zmdTcdDXOXktm0eRbxlBARb6oLI_ztsYaoY=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC01LjQtMjAyNjAzMDV8b3BlbmFpIn0\",\"format\":\"openai-responses-v1\",\"id\":\"rs_0f17cedc6e332fa8016acfc28cf0f087d1a448ccb28b1ea093\",\"index\":0}]}}],\"usage\":{\"prompt_tokens\":344,\"completion_tokens\":84,\"total_tokens\":428,\"cost\":0.00212,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00212,\"upstream_inference_prompt_cost\":0.00086,\"upstream_inference_completions_cost\":0.00126},\"completion_tokens_details\":{\"reasoning_tokens\":26,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  },
+  {
+   "modelo": "openai/gpt-5.4",
+   "caso": "horario-hoy",
+   "rep": 1,
+   "http": 200,
+   "latencia": 2.5071992199991655,
+   "decision": {
+    "intencion": "horario",
+    "intencion_conf": 0.98,
+    "enfado": 0,
+    "enfado_crudo": 0.0,
+    "enfado_conf": 0.99,
+    "jailbreak": false,
+    "jailbreak_conf": 1.0
+   },
+   "error": null,
+   "invalido": null,
+   "coste": 0.00229,
+   "coste_estimado": false,
+   "tokens_in": 340,
+   "tokens_out": 96,
+   "crudo": "\n         \n{\"id\":\"gen-1792000653-8GsrQlUqiBdNwsJL7550\",\"object\":\"chat.completion\",\"created\":1792000653,\"model\":\"openai/gpt-5.4\",\"provider\":\"OpenAI\",\"system_fingerprint\":null,\"service_tier\":\"default\",\"choices\":[{\"index\":0,\"logprobs\":null,\"finish_reason\":\"stop\",\"native_finish_reason\":\"completed\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"intencion\\\":\\\"horario\\\",\\\"intencion_confianza\\\":0.98,\\\"enfado\\\":0,\\\"enfado_confianza\\\":0.99,\\\"jailbreak\\\":false,\\\"jailbreak_confianza\\\":1.0}\",\"refusal\":null,\"reasoning\":null,\"reasoning_details\":[{\"type\":\"reasoning.encrypted\",\"data\":\"gAAAAABqz8KP3LZuoDiNkuXTuaN5Lc4wrfLmfpUodvXPYs_TUSCZGkx_StBGWA_qkqlWpPng7NASgpvFHWGKwrC0qLNHqKh56PaMqSUiY5nNyT8FSqSY5vZQrTZ1TLpfeDnR3-SsRg2wlFoKKbj4gg7CS1kKCLnVfTAoJT3mGHhtCepymgGzeyuEdIQD9BLG7U6kRoAkwsXJYgwwUmr0KUdNVQ0ER37k19cZbD2RmaAac_Saun8u6OrnbnmFfbnMkaU_F8-NXez_ZxKTS96aqmzrSOjeqRi96eskczzErHSCW4iTulCbyxdjlpfA_qlyUSNpIzVq9WlcDewuLv6GeGuBRM0FL4zz0LTvwTcpQgPge-PzZzoP4Plc-u5DcevdM7lNety_BgOLaqVimJMQW3Elj5gcz-zgJDdYCl4b7EUwSMvZ8oYlgUuf3kN9ZoZpNigFhjdt_4VPYlY6wqLxQGyhlN25PlN_DjDpYz2dIvXxi2VFJOn-v8Phc5CCvXNb1ewhQk2YoJrsflug87yGMUyXMzGD6pK3UzP06cwoOZ3mAeQlfdnEs5TvlWEMW4sbSBsOnvZ6EfMF-k5x-j360WvKzfdDHMKiQ_XKx-nsMevEwTR5LMoi7vAPDSwMbrqykpkb7NKiK7MxgDNw28p_RbzJn9VL_JiXAz4QWp14YIjOibyNWI_GxNs_zmfYJI4bfgot1IvtRK0LwEQNHriITGY_4eMA153a_nbGrLo8bJ3h4epM5u0D_r_FxhY0I-orblvM8ao-m_Dno_Qxl7dZfLYz5RLwVZlYnlbM8n5ypT1xChjkMvaJdRCWxBqyubHOKt5ZAZ6q-qiZ1cr5GQXG0cxAMQT30TD8DD08Vk4BjxmaSIcwqHLHeUpgxhmGu1hha93SqDE8JDDPO-mo0LUPHlL1bCwhl7rDtnUpMbcjVcqNu3FbJryYfwPEKRkzqFS3_rEhdAdz4f0NVsl8Lnkx854B1Rei6bx-TgJhZhlGK0diUGTkJW2lDykWlRYeXsr12zmIM3sR2qhZ5P7eeEvSZoSRvJusRQUmGSutVYZobNS9f7e7BUjMIi6prwLfr4ZXFAdqNoVR4v9TpnoR5vbBbwGzoFwYvDOroeAgFLeaF24BkNkSxAAA4ev_1pmj0mlKvENImojttCeDTnIPsdjwEVCHhdpANPPNVpmnRE2NkzNqxOO0ozMMnRc3ISpmLcffHWfdgsAtzF09CifrzdPveRuVIDRiZNCgufYUHF9F_CNuyo95jEd2ggj2zhjk1IqF86l6qky9tMgcPQPCTEXzqPEiXPWgZP3o-GRE3MRlBpAegXdXyfs8wKT3ypNfmRGJ631JJw_Ld9Pn74CrW5QHQ45hoo9uOBwGxEdfoTgy9RJ5I6qPK8bag_0wOvpAzfc8bJApj5WU4R6MPvrJH3TBi3emRfjk9C-vnTlsGS7N2cQlrpN4Bzm5hfcUPSnJzN3iucpIrD02-wXH_FPf05EmbSQOJIIIKxzJzq_HlCLkQaWvaD2GnMI_Hrj9WGvm3hhcki8wLxS_tsOwNl5ZwMS1YYaRRQi6F9BUJs4tksQ3G0fQMUDc4LZL6Vo6jw1VZ_ad4c7itvPlEDx2hF7-sEvZqc0yyR18GeMXMHZVzQYqYiTgHGGTxJ-SX5apWsPP11keRbKoSWmFUAwLVHU0KcwXMc34ca5eehLfpqFOyNscg7zQ1FQ4wxvIFzX0oo7r1gtPSoTBvHWvqd9zL0Mpc5jd6ok_eIZDMlnegFImKZ3G1TSFPh8emzE6HMk1r966p9PKrGp0XqlR4mE401TgHlCu5he1Db-gsdt1iNrMaiRlW5rkUyLTVFlW8mVBZwgWTAp44Z7Q5G7icIZDheeoLrb5tWENizYaqTXqrQ2IsItiWU3Xk4WdqLSOGJZ5u-dfzb_QS_ibU3483v6evF23v6floT-9h62eG71-jK1POVMLhz7N9vZHPTh9ckqTxL5dMKWDDIf_BB6i_imzy5S1elLzT9Tzp-OZphv_6Y0Lvys6BVQxlKxIAsGvlP7wQVl3lo27R6D2uSJSOIUAoy1w2S-fXMBwzv0yPGJd1w==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC01LjQtMjAyNjAzMDV8b3BlbmFpIn0\",\"format\":\"openai-responses-v1\",\"id\":\"rs_008ac3ed69ce0287016acfc28dc19c87d1a1ec92cfc6e80453\",\"index\":0}]}}],\"usage\":{\"prompt_tokens\":340,\"completion_tokens\":96,\"total_tokens\":436,\"cost\":0.00229,\"is_byok\":false,\"prompt_tokens_details\":{\"cached_tokens\":0,\"cache_write_tokens\":0,\"audio_tokens\":0,\"video_tokens\":0},\"cost_details\":{\"upstream_inference_cost\":0.00229,\"upstream_inference_prompt_cost\":0.00085,\"upstream_inference_completions_cost\":0.00144},\"completion_tokens_details\":{\"reasoning_tokens\":38,\"image_tokens\":0,\"audio_tokens\":0}}}"
+  }
+ ]
+}
